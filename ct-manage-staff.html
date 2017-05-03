@@ -108,7 +108,7 @@ View all staff members their status and roles
                 <!--</div>-->
 
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-xs-6">
                         <paper-dropdown-menu class="custom-dropdown" label="Staff Group" always-float-label noink no-animations>
                             <paper-listbox class="dropdown-content" selected="0" attr-for-selected="value">
                                 <template is="dom-repeat" items="{{userGroups}}">
@@ -117,11 +117,8 @@ View all staff members their status and roles
                             </paper-listbox>
                         </paper-dropdown-menu>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-12 col-sm-3 col-sm-offset-9">
-                        <paper-button class="fancy margin-10v btn btn-default btn-block" raised on-tap="_newStaff">New Member</paper-button>
+                    <div class="col-xs-6">
+                        <paper-button class="fancy margin-10v btn btn-default btn" width="80px" raised on-tap="_newStaff">Invite</paper-button>
                     </div>
                 </div>
 
