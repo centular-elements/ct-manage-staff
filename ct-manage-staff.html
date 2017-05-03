@@ -108,17 +108,20 @@ View all staff members their status and roles
         <!--</div>-->
 
         <div class="row">
-          <div class="col-xs-12 col-sm-3">
-            <paper-button class="fancy margin-10v btn btn-default btn-block" raised on-tap="_newStaff">New Member</paper-button>
-          </div>
-          <div class="col-xs-12 col-sm-6">
-            <paper-dropdown-menu class="custom-dropdown" label="Staff Group" noink no-animations>
+          <div class="col-xs-12">
+            <paper-dropdown-menu class="custom-dropdown" label="Staff Group" always-float-label noink no-animations>
               <paper-listbox class="dropdown-content" selected="0" attr-for-selected="">
                 <template is="dom-repeat" items="">
                   <paper-item value="[[item.id]]">[[item.name]]</paper-item>
                 </template>
               </paper-listbox>
             </paper-dropdown-menu>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-3 col-sm-offset-9">
+            <paper-button class="fancy margin-10v btn btn-default btn-block" raised on-tap="_newStaff">New Member</paper-button>
           </div>
         </div>
 
@@ -137,7 +140,7 @@ View all staff members their status and roles
                   <td>John Doe</td>
                   <td>Support Agent</td>
                   <!--<td>Offline</td>-->
-                  <td class="text-center"><paper-button class="table-button primary" on-tap="_viewSingleStaff">View</paper-button></td>
+                  <td class="text-center"><paper-button class="table-button btn-primary btn-sm" on-tap="_viewSingleStaff" raised>View</paper-button></td>
                 </tr>
 
                 <template is="dom-repeat" items="{{staffList}}">
@@ -145,7 +148,7 @@ View all staff members their status and roles
                     <td>[[item.name]]</td>
                     <td>[[item.group]]</td>
                     <!--<td>[[item.status]]</td>-->
-                    <td class="text-center"><paper-button class="table-button primary" on-tap="_viewSingleStaff">View</paper-button></td>
+                    <td class="text-center"><paper-button class="table-button btn-primary btn-sm" on-tap="_viewSingleStaff" raised>View</paper-button></td>
                   </tr>
                 </template>
 
