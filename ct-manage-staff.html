@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+
 <link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="../paper-input/paper-input-behavior.html">
 <link rel="import" href="../paper-button/paper-button.html">
@@ -9,6 +10,7 @@
 <link rel="import" href="../paper-listbox/paper-listbox.html">
 <link rel="import" href="../iron-icons/social-icons.html">
 <link rel="import" href="../iron-form/iron-form.html">
+
 <link rel="import" href="../ct-shared-styles/ct-application-theme.html">
 <link rel="import" href="../mercury-paginator/mercury-paginator.html">
 
@@ -34,7 +36,6 @@ View all staff members their status and roles
                     border-right:1px solid #ccc;
                     border-bottom: none;
                     padding: 0;
-                    /*  margin-bottom: 24px; */
                 };
 
                 /*padding to move from border */
@@ -54,11 +55,10 @@ View all staff members their status and roles
                     font-style: italic;
                 };
 
-                /*--paper-icon-button-ink-color: var(--breadcrumb-icon-color-ripple);*/
             }
 
             .main-section {
-              margin-top:20px;
+                margin-top:20px;
             }
 
 
@@ -114,9 +114,9 @@ View all staff members their status and roles
                 <div class="row">
                     <div class="col-xs-6">
                         <paper-dropdown-menu class="custom-dropdown" label="Staff Group" always-float-label noink no-animations>
-                            <paper-listbox class="dropdown-content" selected="0" attr-for-selected="value">
+                            <paper-listbox class="dropdown-content" selected="{{_selectedUserGroupId}}" attr-for-selected="key">
                                 <template is="dom-repeat" items="{{userGroups}}">
-                                    <paper-item value="[[item.id]]">[[item.name]]</paper-item>
+                                    <paper-item key="[[item.id]]">[[item.name]]</paper-item>
                                 </template>
                             </paper-listbox>
                         </paper-dropdown-menu>
@@ -137,12 +137,6 @@ View all staff members their status and roles
                                 <th>Action</th>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>John Doe</td>
-                                    <td>Support Agent</td>
-                                    <!--<td>Offline</td>-->
-                                    <td class="text-center"><paper-button class="table-button btn-primary btn-sm" on-tap="_viewSingleStaff" raised>View</paper-button></td>
-                                </tr>
 
                                 <template is="dom-repeat" items="{{staffList}}">
                                     <tr>
@@ -175,12 +169,26 @@ View all staff members their status and roles
             properties: {
                 staffList: Array,
                 userGroups: Array,
+                _selectedUserGroupId : {
+                    type: String,
+                    value: function(){
+                        return '322b9d97-968a-41dd-a1e8-b19c97c1dd21';
+                    }
+                }
+            },
+
+            observers : [
+                '_getUsers(_selectedUserGroupId)'
+            ],
+
+            _getUsers : function(selectedGroupId){
+                this.fire('getUsers', selectedGroupId);
             },
 
             _viewSingleStaff : function(e) {
 
                 if(e.model && e.model.item.id){
-                    this.fire('viewStaff', id);
+                    this.fire('viewStaff', e.model.item.id);
                 } else {
                     console.log('error');
                     this.fire('toast', {message: 'Cannot display staff member', type: 'danger'});
