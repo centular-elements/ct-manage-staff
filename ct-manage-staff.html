@@ -106,34 +106,42 @@ View all staff members their status and roles
 
                 <div class="row">
                     <div class="col-xs-12">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover table-middle">
-                                <thead>
-                                <th>Staff Member Name</th>
-                                <th>Email</th>
-                                <th>Mobile</th>
-                                <th>Action</th>
-                                </thead>
-                                <tbody>
+                        <template is="dom-if" if="{{_computeHasData(userList)}}">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover table-middle">
+                                    <thead>
+                                    <th>Staff Member Name</th>
+                                    <th>Email</th>
+                                    <th>Mobile</th>
+                                    <th>Action</th>
+                                    </thead>
+                                    <tbody>
 
-                                <template is="dom-repeat" items="{{userList}}">
-                                    <tr>
-                                        <td><span>[[item.firstName]]</span> <span>[[item.lastName]]</span>  </td>
-                                        <td>[[_computeContact('email', item.contacts)]]</td>
-                                        <td>[[_computeContact('mobile', item.contacts)]]</td>
-                                        <td class="text-center"><paper-button class="table-button btn-primary btn-sm" on-tap="_viewSingleStaff" raised>View</paper-button></td>
-                                    </tr>
-                                </template>
+                                    <template is="dom-repeat" items="{{userList}}">
+                                        <tr>
+                                            <td><span>[[item.firstName]]</span> <span>[[item.lastName]]</span>  </td>
+                                            <td>[[_computeContact('email', item.contacts)]]</td>
+                                            <td>[[_computeContact('mobile', item.contacts)]]</td>
+                                            <td class="text-center"><paper-button class="table-button btn-primary btn-sm" on-tap="_viewSingleStaff" raised>View</paper-button></td>
+                                        </tr>
+                                    </template>
 
-                                </tbody>
-                            </table>
-                        </div>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-xs-12">
+                                <nav aria-label="Page navigation">
+                                    <mercury-paginator perpage="50" items="{{userList}}"></mercury-paginator>
+                                </nav>
+                            </div>
+                        </template>
+
+                        <template is="dom-if" if="{{!_computeHasData(userList)}}">
+                            <div><p class="text-center">No Staff to display</p></div>
+                        </template>
+
                     </div>
-                    <div class="col-xs-12">
-                        <nav aria-label="Page navigation">
-                            <mercury-paginator perpage="50" items="{{userList}}"></mercury-paginator>
-                        </nav>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -181,6 +189,10 @@ View all staff members their status and roles
                 })[0];
 
                 return (data) ? data.contact.contact : 'Not Available';
+            },
+
+            _computeHasData : function(list){
+                return (list.length > 0);
             },
 
 
