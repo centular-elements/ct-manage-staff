@@ -89,28 +89,6 @@ View all staff members their status and roles
         <div class="main-section">
             <div class="container-fluid">
 
-                <!--todo enable once endpoint supports functionality-->
-                <!--<div class="row">-->
-                <!--<div class="col-xs-12 col-sm-7">-->
-                <!--<paper-input label="Find Record" placeholder="Search for building name, address, status" type="text" name="" value="" auto-validate pattern="[a-zA-Z 0-9]*" error-message="Require letters and numbers"></paper-input>-->
-                <!--</div>-->
-                <!--<div class="col-xs-12 col-sm-3">-->
-                <!--<paper-dropdown-menu class="custom-dropdown" label="Status" noink no-animations>-->
-                <!--<paper-listbox class="dropdown-content" selected="1">-->
-                <!--<paper-item>All</paper-item>-->
-                <!--<paper-item>Online</paper-item>-->
-                <!--<paper-item>Offline</paper-item>-->
-                <!--</paper-listbox>-->
-                <!--</paper-dropdown-menu>-->
-                <!--</div>-->
-                <!--<div class="col-xs-12 col-sm-2">-->
-                <!--<paper-button class="fancy margin-4v primary">Search</paper-button>-->
-                <!--</div>-->
-                <!--<div class="col-xs-12 col-sm-3">-->
-                <!--<paper-button class="fancy margin-10v">New Member</paper-button>-->
-                <!--</div>-->
-                <!--</div>-->
-
                 <div class="row">
                     <div class="col-xs-6">
                         <paper-dropdown-menu class="custom-dropdown" label="Staff Group" always-float-label noink no-animations>
@@ -132,17 +110,17 @@ View all staff members their status and roles
                             <table class="table table-striped table-bordered table-hover table-middle">
                                 <thead>
                                 <th>Staff Member Name</th>
-                                <th>Role</th>
-                                <!--<th>Status</th>-->
+                                <th>Email</th>
+                                <th>Mobile</th>
                                 <th>Action</th>
                                 </thead>
                                 <tbody>
 
-                                <template is="dom-repeat" items="{{staffList}}">
+                                <template is="dom-repeat" items="{{userList}}">
                                     <tr>
-                                        <td>[[item.name]]</td>
-                                        <td>[[item.group]]</td>
-                                        <!--<td>[[item.status]]</td>-->
+                                        <td><span>[[item.firstName]]</span> <span>[[item.lastName]]</span>  </td>
+                                        <td>[[_computeContact('email', item.contacts)]]</td>
+                                        <td>[[_computeContact('mobile', item.contacts)]]</td>
                                         <td class="text-center"><paper-button class="table-button btn-primary btn-sm" on-tap="_viewSingleStaff" raised>View</paper-button></td>
                                     </tr>
                                 </template>
@@ -153,7 +131,7 @@ View all staff members their status and roles
                     </div>
                     <div class="col-xs-12">
                         <nav aria-label="Page navigation">
-                            <mercury-paginator perpage="50" items="{{staffList}}"></mercury-paginator>
+                            <mercury-paginator perpage="50" items="{{userList}}"></mercury-paginator>
                         </nav>
                     </div>
                 </div>
@@ -167,18 +145,18 @@ View all staff members their status and roles
             is: 'ct-manage-staff',
 
             properties: {
-                staffList: Array,
+                userList: Array,
                 userGroups: Array,
                 _selectedUserGroupId : {
                     type: String,
                     value: function(){
                         return '322b9d97-968a-41dd-a1e8-b19c97c1dd21';
-                    }
+                    },
                 }
             },
 
             observers : [
-                '_getUsers(_selectedUserGroupId)'
+                '_getUsers(_selectedUserGroupId)',
             ],
 
             _getUsers : function(selectedGroupId){
@@ -195,6 +173,16 @@ View all staff members their status and roles
                 }
 
             },
+
+            _computeContact : function(type, contactData) {
+                console.log(contactData);
+                var data = contactData.filter(function(o){
+                    return (o.contact.contactType[0].toLowerCase() === type);
+                })[0];
+
+                return (data) ? data.contact.contact : 'Not Available';
+            },
+
 
             _newStaff : function(){
                 this.fire('newStaff');
