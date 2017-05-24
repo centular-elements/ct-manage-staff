@@ -182,7 +182,7 @@ View all staff members their status and roles
 
             _computeContact : function(type, contactData) {
                 var data = contactData.filter(function(o){
-                    return (o.contact.contactType[0].toLowerCase() === type);
+                    return (o.contact.contactType.toLowerCase() === type);
                 })[0];
 
                 return (data) ? data.contact.contact : 'Not Available';
